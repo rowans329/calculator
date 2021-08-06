@@ -1,10 +1,10 @@
 #[macro_use]
 extern crate clap;
 
+use dialoguer::Input;
 use regex::Regex;
 use std::fmt::{self, Display};
 use std::str::FromStr;
-use dialoguer::Input;
 
 fn main() {
     let matches = clap_app!(calculator =>
@@ -66,7 +66,7 @@ fn solve(str: &str) -> f64 {
 }
 
 #[derive(Clone, Copy, Debug)]
- enum Token {
+enum Token {
     Number(f64),
     Operator(Operator),
 }
@@ -81,7 +81,7 @@ impl Display for Token {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
- enum Operator {
+enum Operator {
     Add,
     Sub,
     Mul,
@@ -151,7 +151,7 @@ impl Display for Operator {
     }
 }
 
- fn tokenize(str: &str) -> Vec<Token> {
+fn tokenize(str: &str) -> Vec<Token> {
     let mut tokens = Vec::new();
 
     let regex = Regex::new(r"([0-9]+(.[0-9]+)*)|([+\-*/%^\(\)])").unwrap();
@@ -195,10 +195,7 @@ impl Apply for Vec<f64> {
 
 fn console() {
     loop {
-        let input: String = Input::new()
-            .with_prompt("> ")
-            .interact_text()
-            .unwrap();
+        let input: String = Input::new().with_prompt("> ").interact_text().unwrap();
 
         let input: &str = &input;
 
